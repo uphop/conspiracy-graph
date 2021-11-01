@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_graphql import GraphQLView
 import graphene
-from schema.query.question_query import QuestionQuery
+from schema.question_query import QuestionQuery
 
 app = Flask(__name__)
 app.debug = True

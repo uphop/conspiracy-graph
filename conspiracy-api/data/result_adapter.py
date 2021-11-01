@@ -1,5 +1,4 @@
 import pandas as pd
-from schema.type.question import Question
 
 INPUT_FILE_RESULTS = './input/survey_results.csv'
 

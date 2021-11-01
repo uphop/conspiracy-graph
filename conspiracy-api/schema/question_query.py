@@ -1,5 +1,5 @@
 import graphene
-from schema.type.question import Question
+from schema.question_types import Question
 from data.question_adapter import QuestionAdapter
 from data.result_adapter import ResultAdapter
 
