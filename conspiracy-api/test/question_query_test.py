@@ -2,8 +2,8 @@ import graphene
 from graphene.test import Client
 from schema.query.question_query import QuestionQuery
 
-schema = graphene.Schema(query=QuestionQuery)
-client = Client(schema)
+# schema = graphene.Schema(query=QuestionQuery)
+# client = Client(schema)
 
 query = '''
     query GetQuestion($id: String!) {
@@ -14,6 +14,6 @@ query = '''
     }
 '''
 params = {"id": "Q1"}
-result = client.execute(query, variables=params)
+# result = client.execute(query, variables=params)
 
-print(result)
+#print(result)

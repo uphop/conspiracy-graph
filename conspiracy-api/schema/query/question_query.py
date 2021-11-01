@@ -1,12 +1,20 @@
 import graphene
 from schema.type.question import Question
 from data.question_adapter import QuestionAdapter
+from data.result_adapter import ResultAdapter
 
-questionAdapter = QuestionAdapter()
+question_adapter = QuestionAdapter()
+result_adapter = ResultAdapter()
     
 class QuestionQuery(graphene.ObjectType):
     question = graphene.Field(Question, id=graphene.String())
+    total_count = graphene.Int()
 
     def resolve_question(root, info, id):
-        return questionAdapter.get_question(id)
+        result = question_adapter.get_question(id)
+        result.average_time = result_adapter.get_question_average_time(id)
+        return result
+    
+    def resolve_total_count(root, info):
+        return question_adapter.get_question_count()
 
