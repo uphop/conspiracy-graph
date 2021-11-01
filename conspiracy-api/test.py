@@ -1,6 +1,8 @@
+import graphene
 from graphene.test import Client
-from schema import schema
+from schema.query.question_query import QuestionQuery
 
+schema = graphene.Schema(query=QuestionQuery)
 client = Client(schema)
 
 query = '''
