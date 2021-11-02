@@ -33,20 +33,21 @@ from rasa_sdk.events import AllSlotsReset
 import requests
 import json
 
-class ActionGraphQuery(Action):
+
+class ActionQuestionQuery(Action):
 
     def name(self) -> Text:
-        return "action_graph_query"
+        return "action_question_query"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+
         # check if question ID and fields are filled
         question_id = tracker.get_slot('question_id')
         if len(question_id) == 0:
             return []
-        
+
         question_fields = tracker.get_slot('question_fields')
         if not question_fields or len(question_fields) == 0:
             # if fields are not provided, set the default ones
@@ -67,7 +68,7 @@ class ActionGraphQuery(Action):
         }
 
         url = 'http://localhost:5000/graphql'
-        headers = {'content-type' : 'application/json'}
+        headers = {'content-type': 'application/json'}
         r = requests.post(url, json=payload, headers=headers)
         print(r.text)
 
@@ -76,7 +77,8 @@ class ActionGraphQuery(Action):
         values = json_data['data']['question']
         question_response_fields = ''
         for item in values:
-            question_response_fields += '* ' + item + ' is ' + str(values[item]) + '\n'
+            question_response_fields += '* ' + item + \
+                ' is ' + str(values[item]) + '\n'
 
         question_response = 'Question details are the following: \n' + question_response_fields
         dispatcher.utter_message(text=question_response)
