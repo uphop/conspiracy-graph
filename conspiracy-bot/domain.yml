@@ -10,9 +10,15 @@ intents:
   - bot_challenge
   - get_question
 
+entities:
+  - question_id
+  - question_fields
+
 slots:
   question_id:
     type: text
+  question_fields:
+    type: list
 
 actions:
   - action_graph_query

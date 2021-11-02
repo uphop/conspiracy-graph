@@ -93,7 +93,9 @@ nlu:
 
 - intent: get_question
   examples: |
-    - get question
-    - what is the question?
-    - show text of question
-    - show question details
+    - get [id](question_fields) for question [Q1](question_id)
+    - get [text](question_fields) and [averageTime](question_fields) for question [Q1](question_id)
+    - what is [averageTime](question_fields) of question [Q2](question_id)?
+    - what is [text](question_fields) and [averageTime](question_fields) of question [Q2](question_id)?
+    - show [text](question_fields) of question [Q3](question_id)
+    - show question [Q4](question_id) details

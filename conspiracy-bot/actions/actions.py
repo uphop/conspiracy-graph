@@ -40,18 +40,28 @@ class ActionGraphQuery(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        question_id = tracker.get_slot('question_id')
+        print('question_id: ' + question_id)
+
+        question_fields = tracker.get_slot('question_fields')
+        print('question_fields: ')
+        print(question_fields)
+
+        # extract question from the latest message's text
+        full_message_text = tracker.latest_message.get('text')
+        print('full_message_text: ' + full_message_text)
 
         url = 'http://localhost:5000/graphql'
         headers = {'content-type' : 'application/json'}
         query = '''
             query QuestionQuery($id: String) {
-            question(id: $id) {
-                id
-                text
-            }
+                question(id: $id) {
+                    ''' + ' ' .join(question_fields) + '''
+                }
             }
         '''
-        variables = {'id': 'Q1'}
+        variables = {'id': question_id}
         payload = {
             'query': query,
             'variables': variables
@@ -60,7 +70,9 @@ class ActionGraphQuery(Action):
         r = requests.post(url, json=payload, headers=headers)
         print(r.text)
         json_data = json.loads(r.text)
-        question_text = json_data['data']['question']['text']
+
+        # question_text = json_data['data']['question']['text']
+        question_text = 'hello world!'
         dispatcher.utter_message(text=question_text)
 
         return []
