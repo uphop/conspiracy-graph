@@ -29,6 +29,7 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import AllSlotsReset
 import requests
 import json
 
@@ -41,19 +42,17 @@ class ActionGraphQuery(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        # check if question ID and fields are filled
         question_id = tracker.get_slot('question_id')
-        print('question_id: ' + question_id)
-
+        if len(question_id) == 0:
+            return []
+        
         question_fields = tracker.get_slot('question_fields')
-        print('question_fields: ')
-        print(question_fields)
+        if not question_fields or len(question_fields) == 0:
+            # if fields are not provided, set the default ones
+            question_fields = ['text']
 
-        # extract question from the latest message's text
-        full_message_text = tracker.latest_message.get('text')
-        print('full_message_text: ' + full_message_text)
-
-        url = 'http://localhost:5000/graphql'
-        headers = {'content-type' : 'application/json'}
+        # prepare and run query
         query = '''
             query QuestionQuery($id: String) {
                 question(id: $id) {
@@ -67,12 +66,19 @@ class ActionGraphQuery(Action):
             'variables': variables
         }
 
+        url = 'http://localhost:5000/graphql'
+        headers = {'content-type' : 'application/json'}
         r = requests.post(url, json=payload, headers=headers)
         print(r.text)
+
+        # get values from result and prepare response
         json_data = json.loads(r.text)
+        values = json_data['data']['question']
+        question_response_fields = ''
+        for item in values:
+            question_response_fields += '* ' + item + ' is ' + str(values[item]) + '\n'
 
-        # question_text = json_data['data']['question']['text']
-        question_text = 'hello world!'
-        dispatcher.utter_message(text=question_text)
+        question_response = 'Question details are the following: \n' + question_response_fields
+        dispatcher.utter_message(text=question_response)
 
-        return []
+        return [AllSlotsReset()]
