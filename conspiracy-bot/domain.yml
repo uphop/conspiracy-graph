@@ -21,7 +21,7 @@ slots:
     type: list
 
 actions:
-  - action_graph_query
+  - action_question_query
 
 responses:
   utter_greet:

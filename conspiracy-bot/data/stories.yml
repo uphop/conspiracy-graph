@@ -32,4 +32,4 @@ stories:
 - story: happy path 2
   steps:
   - intent: get_question
-  - action: action_graph_query
+  - action: action_question_query
