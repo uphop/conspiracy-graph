@@ -93,9 +93,19 @@ nlu:
 
 - intent: get_question
   examples: |
-    - get [id](question_fields) for question [Q1](question_id)
-    - get [text](question_fields) and [averageTime](question_fields) for question [Q1](question_id)
-    - what is [averageTime](question_fields) of question [Q2](question_id)?
-    - what is [text](question_fields) and [averageTime](question_fields) of question [Q2](question_id)?
-    - show [text](question_fields) of question [Q3](question_id)
+    - get [id](requested_question_fields) for question [Q1](question_id)
+    - get [text](requested_question_fields) and [id](requested_question_fields) for question [Q1](question_id)
+    - what is [text](requested_question_fields) of question [Q2](question_id)?
+    - what is [id](requested_question_fields) and [text](requested_question_fields) of question [Q2](question_id)?
+    - show [text](requested_question_fields) of question [Q3](question_id)
     - show question [Q4](question_id) details
+    - what is response [average time](requested_response_fields) for question [Q1](question_id)
+    - get response [average grade](requested_response_fields) for question [Q2](question_id)
+    - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of response of question [Q3](question_id)?
+    - show [average grade](requested_response_fields) of response for question [Q4](question_id)
+    - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id)
+    - what is response [average time](requested_response_fields) for question [Q1](question_id) where [education](requested_response_filters) is [university degree](education_type)
+    - get response [average grade](requested_response_fields) for question [Q2](question_id) where [education](requested_response_filters) is [graduate degree](education_type)
+    - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of question [Q3](question_id) for people with [education](requested_response_filters) of [university degree](education_type)?
+    - show [average grade](requested_response_fields) for question [Q4](question_id) for people with [education](requested_response_filters) of [university degree](education_type)
+    - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id) where [education](requested_response_filters) is [university degree](education_type)

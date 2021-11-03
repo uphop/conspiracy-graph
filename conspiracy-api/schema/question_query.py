@@ -6,7 +6,6 @@ from schema.question_enum import Education, Urban, Gender, EngNat, Hand, Religio
 question_adapter = QuestionAdapter()
 result_adapter = ResultAdapter()
 
-
 class Response(graphene.ObjectType):
     # filters
     id = graphene.ID()
@@ -28,10 +27,12 @@ class Response(graphene.ObjectType):
     average_grade = graphene.Float()
 
     def resolve_average_time(root, info):
-        return result_adapter.get_question_average_time(root.id, root.education, root.urban, root.gender, root.eng_nat, root.age, root.hand, root.religion, root.race, root. voted, root.married, root.family_size, root.major)
+        return result_adapter.get_question_average_time(root.id, root.education, root.urban, root.gender, root.eng_nat, root.age,
+                                                        root.hand, root.religion, root.race, root. voted, root.married, root.family_size, root.major)
 
     def resolve_average_grade(root, info):
-        return result_adapter.get_response_average_grade(root.id, root.education, root.urban, root.gender, root.eng_nat, root.age, root.hand, root.religion, root.race, root. voted, root.married, root.family_size, root.major)
+        return result_adapter.get_response_average_grade(root.id, root.education, root.urban, root.gender, root.eng_nat, root.age,
+                                                         root.hand, root.religion, root.race, root. voted, root.married, root.family_size, root.major)
 
 
 class Question(graphene.ObjectType):
@@ -66,23 +67,11 @@ class Question(graphene.ObjectType):
                               )
 
     def resolve_text(root, info):
-        return question_adapter.get_question(root.id)['text']
+        return question_adapter.get_question_text(root.id)
 
     def resolve_response(root, info, education, urban, gender, eng_nat, age, hand, religion, race, voted, married, family_size, major):
-        print(education)
-        return Response(id=root.id, education=education,
-                        urban=urban,
-                        gender=gender,
-                        eng_nat=eng_nat,
-                        age=age,
-                        hand=hand,
-                        religion=religion,
-                        race=race,
-                        voted=voted,
-                        married=married,
-                        family_size=family_size,
-                        major=major
-                        )
+        return Response(id=root.id, education=education, urban=urban, gender=gender, eng_nat=eng_nat, age=age, hand=hand, religion=religion,
+                        race=race, voted=voted, married=married, family_size=family_size, major=major)
 
 
 class QuestionQuery(graphene.ObjectType):
