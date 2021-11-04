@@ -12,50 +12,44 @@ class ActionQuestionQuery(Action):
     def name(self) -> Text:
         return "action_question_query"
 
-    def camelCase(self, st):
+    def string_to_camel(self, st):
         output = ''.join(x for x in st.title() if x.isalnum())
         return output[0].lower() + output[1:]
 
-    def get_query_response_education_filter(self, tracker, response_filters):
+    def get_query(self, tracker):
+        # extract question root fields
+        requested_question_fields = tracker.get_slot('requested_question_fields') if tracker.get_slot('requested_question_fields') else []
+
+        # extract response fields
+        requested_response_fields = tracker.get_slot('requested_response_fields') if tracker.get_slot('requested_response_fields') else []
+        requested_response_fields = [self.string_to_camel(item) for item in requested_response_fields]
+
+        # apply response filters if any provided
         requested_response_filters = tracker.get_slot('requested_response_filters') if tracker.get_slot('requested_response_filters') else []
+        response_filters = {}
+        response_filters['education'] = tracker.get_slot('education_type').replace(' ', '_').upper() if 'education' in requested_response_filters else 'NOT_DEFINED'
+        response_filters['urban'] = tracker.get_slot('area_type').replace(' ', '_').upper() if 'area' in requested_response_filters else 'NOT_DEFINED'
+        query_response_filters = json.dumps(response_filters).replace('{', '').replace('}', '').replace('"', '')
+
+        print('requested_question_fields: ', requested_question_fields)
+        print('requested_response_fields: ', requested_response_fields)
         print('requested_response_filters: ', requested_response_filters)
 
-        if 'education' in requested_response_filters:
-            education_type = tracker.get_slot('education_type')
-            education_type = education_type.replace(' ', '_').upper()
-            response_filters['education'] = education_type
-        return response_filters
-
-    def get_query_response_filters(self, tracker):
-         # parse filters
-        response_filters = {}
-        response_filters = self.get_query_response_education_filter(tracker, response_filters)
-        print('response_filters: ', response_filters)
-
-        query_response_filters = json.dumps(response_filters).replace('{', '').replace('}', '').replace('"', '')
-        query_response_filters = '(' + query_response_filters + ')' if len(query_response_filters) > 0 else ''
-        print('query_response_filters: ', query_response_filters)
-        
-        return query_response_filters
-
-    def get_query_response(self, tracker):
-        # parse response fields
-        requested_response_fields = tracker.get_slot('requested_response_fields') if tracker.get_slot('requested_response_fields') else []
-        # transform requested response fields to camel case
-        requested_response_fields = [self.camelCase(item) for item in requested_response_fields]
-        print('requested_response_fields: ', requested_response_fields)
-
-        query_response_filters = self.get_query_response_filters(tracker)
-        query_response = ' response ' + query_response_filters + ' {' + ' '.join(requested_response_fields) +'} ' if len(requested_response_fields) > 0 else ''
-        return query_response
-
-    def get_query(self, tracker):
-        requested_question_fields = tracker.get_slot('requested_question_fields') if tracker.get_slot('requested_question_fields') else []
-        print('requested_question_fields: ', requested_question_fields)
-        
-        query_response = self.get_query_response(tracker)
-        query_question = ' question(id: $id) {' + ' '.join(requested_question_fields) + query_response + '}'
-        query = 'query QuestionQuery($id: String) {' + query_question + '}'
+        # constract graph query
+        query = 'query QuestionQuery($id: String) {'
+        query += ' question(id: $id) {'
+        query += ' '.join(requested_question_fields)
+        if len(requested_response_fields) > 0:
+            query += '  response '
+            if len(query_response_filters) > 0:
+                query += '('
+                query += query_response_filters
+                query += ')'
+            query += ' {'
+            query += '    '.join(requested_response_fields)
+            query += ' }'
+        query += '  }'
+        query += '}'
 
         return query
 
@@ -69,7 +63,6 @@ class ActionQuestionQuery(Action):
             return []
 
         # prepare and run query
-        
         query = self.get_query(tracker)
         print(query)
 

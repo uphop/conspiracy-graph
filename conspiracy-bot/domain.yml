@@ -16,6 +16,7 @@ entities:
   - requested_response_fields
   - requested_response_filters
   - education_type
+  - area_type
 
 slots:
   question_id:
@@ -27,6 +28,8 @@ slots:
   requested_response_filters:
     type: list
   education_type:
+    type: text
+  area_type:
     type: text
 
 actions:

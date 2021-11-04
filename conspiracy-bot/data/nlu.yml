@@ -104,8 +104,26 @@ nlu:
     - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of response of question [Q3](question_id)?
     - show [average grade](requested_response_fields) of response for question [Q4](question_id)
     - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id)
+
     - what is response [average time](requested_response_fields) for question [Q1](question_id) where [education](requested_response_filters) is [university degree](education_type)
     - get response [average grade](requested_response_fields) for question [Q2](question_id) where [education](requested_response_filters) is [graduate degree](education_type)
     - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of question [Q3](question_id) for people with [education](requested_response_filters) of [university degree](education_type)?
     - show [average grade](requested_response_fields) for question [Q4](question_id) for people with [education](requested_response_filters) of [university degree](education_type)
     - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id) where [education](requested_response_filters) is [university degree](education_type)
+    - what is response [average time](requested_response_fields) for question [Q1](question_id) where [education](requested_response_filters) is [less than high school](education_type)
+    - get response [average grade](requested_response_fields) for question [Q2](question_id) where [education](requested_response_filters) is [high school](education_type)
+    - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of question [Q3](question_id) for people with [education](requested_response_filters) of [less than high school](education_type)?
+    - show [average grade](requested_response_fields) for question [Q4](question_id) for people with [education](requested_response_filters) of [university degree](education_type)
+    - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id) where [education](requested_response_filters) is [high school](education_type)
+
+    - what is response [average time](requested_response_fields) for question [Q1](question_id) where [area](requested_response_filters) is [rural](area_type)
+    - get response [average grade](requested_response_fields) for question [Q2](question_id) where [area](requested_response_filters) is [suburban](area_type)
+    - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of question [Q3](question_id) for people in [rural](area_type) [area](requested_response_filters)?
+    - show [average grade](requested_response_fields) for question [Q4](question_id) for people within [urban](area_type) [area](requested_response_filters)
+    - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id) in [rural](area_type) [area](requested_response_filters)
+    - what is response [average time](requested_response_fields) for question [Q1](question_id) where [area](requested_response_filters) is [urban](area_type)
+    - get response [average grade](requested_response_fields) for question [Q2](question_id) where [area](requested_response_filters) is [urban](area_type)
+    - what are [average time](requested_response_fields) and [average grade](requested_response_fields) of question [Q3](question_id) for people in [urban](area_type) [area](requested_response_filters)?
+    - show [average grade](requested_response_fields) for question [Q4](question_id) for people within [suburban](area_type) [area](requested_response_filters)
+    - show response [average grade](requested_response_fields) and [average time](requested_response_fields) for question [Q5](question_id) where [area](requested_response_filters) is [urban](area_type)
+  
